@@ -6,6 +6,12 @@
     <title>create</title>
 </head>
 <body>
+    <h3 th:text="${session.name1}"></h3>
     <h1>Create</h1>
+    <form action="" method="post">
+        <input type="text" name="name" id="name">
+        <button type="submit">전송</button>
+    </form>
+    [[${name}]]
 </body>
 </html>

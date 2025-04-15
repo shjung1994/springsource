@@ -6,7 +6,18 @@
     <title>home</title>
 </head>
 <body>
+    <h3>
+        <!-- 경로가 바뀔걸 대비해 th:href="@{} 사용 -->
+        <a href="/sample" th:href="@{/sample}">thymeleaf 코드 연습</a>
+    </h3>
+    <h3 th:text="${session.name1}"></h3>
     <h1>테스트</h1>
+    <h3>덧셈</h3>
+    <ul>
+        <!-- a로 들어오는건 다 GetMapping으로 해야 함 -->
+        <li><a href="/basic" th:href="@{/basic}">덧셈</a></li>
+        <li><a href="/calc">사칙연산</a></li>
+    </ul>
     <h3>Board</h3>
     <ul>
         <li><a href="/board/create">게시글 작성</a></li>
