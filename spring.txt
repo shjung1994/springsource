@@ -36,6 +36,14 @@ build: 프로젝트생성, 라이브러리 설정, 코드작업, 컴파일, 테�
     - 싱글톤 방식(객체는 하나만 생성)으로 객체 생성
     - @Controller, @Service, @Component
 
+2) Injection(주입)
+    - @Controller, @Service, @Component을 통해서 생성된 객체를 언제, 어디에, 사용할 것인지를 알려주는 개념
+    - @Autowired를 필요한 객체 위에 작성(컨테이너가 관리하는 객체를 주입해 주세요)
+    
+    @Autowired                          클래스에 @RequiredArgsConstructor 붙이기
+    private MemoService memoService; == private final MemoService memoService;
+
+
 2) 경로 임의로 생성
 http://localhost:8080/ ==> Controller 파일의 메소드와 매핑
 
@@ -47,7 +55,7 @@ ex) 게시판 개발
 게시글 수정: /board/update
 
 @RequestMapping("/board")
-public class BoardController {
+public class BoardController {}
 
 @GetMapping("/create")
 public String method() {
@@ -196,3 +204,5 @@ Respository 제공 메소드
 2) findById(): select(where)
 3) findAll(): select(all, 전체조회)
 4) deleteById() / delete(): 삭제
+
+autowired = @RequiredArgsConstructor + final

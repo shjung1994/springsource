@@ -26,7 +26,8 @@ public class MemoRepositoryTest {
     public void updateTest(){
         // Memo memo = Memo.builder().mno(1L).memoText("memoText update").build();
         Memo memo = memoRepository.findById(1L).get();
-        memo.setMemoText("memoText update");
+        // memo.setMemoText("memoText update");
+        memo.changeMemoText("memoText update"); // setter 안쓰면 memo.java에 change로 썻으니
         memoRepository.save(memo);
     }
 
@@ -38,6 +39,7 @@ public class MemoRepositoryTest {
 
     @Test
     public void listTest(){
+        // memoRepository.findAll(): entity모양으로 담긴 list를 돌려준다는 소리
         memoRepository.findAll().forEach(memo -> System.out.println(memo));
     }
 
