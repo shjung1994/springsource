@@ -32,6 +32,7 @@ LazyInitializationException 발생함
 영속성 관리
 : 양방향일 때 사용할 수 있는 개념
 : 부모 저장 시 자식 엔티티도 같이 저장
+: 영속성 상태에 있어야 엔티티 삽입, 삭제, 수정 가능
 
 @OneToMany(mappedBy = "parent", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, orphanRemoval = true)
 
@@ -39,3 +40,4 @@ cascade = {CascadeType.PERSIST, CascadeType.REMOVE}: 부모 저장, 삭제 시 �
 
 orphanRemoval = true: 부모 객체에서 자식 객체를 제거(고아객체)하면 자식 객체가 제거
 
+cascade = CascadeType.ALL : 부모, 자식간 모든 것 가능

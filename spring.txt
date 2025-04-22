@@ -206,3 +206,7 @@ Respository 제공 메소드
 4) deleteById() / delete(): 삭제
 
 autowired = @RequiredArgsConstructor + final
+
+- modelmapper: dto => entity / entity => dto를 메소드를 안만들어도 자동으로 처리해 주는 기능
+1. RootConfig.java 작성(modelmapper를 위한 기본 설정)
+2. 

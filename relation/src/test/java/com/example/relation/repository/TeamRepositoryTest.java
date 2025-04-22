@@ -23,7 +23,7 @@ public class TeamRepositoryTest {
         Team team = teamRepository.save(Team.builder().teamName("team2").build());
     
         // 회원(자식) 정보 삽입
-        teamMemberRepository.save(TeamMember.builder().userName("user1").team(team).build());
+        // teamMemberRepository.save(TeamMember.builder().userName("user1").team(team).build());
     }
 
     // 있는 팀에 집어넣어보자!
@@ -101,4 +101,30 @@ public class TeamRepositoryTest {
         // 객체그래프탐색
         team.getMembers().forEach(member -> System.out.println(member));
     }
+
+
+    // ---------------------------
+    // 양뱡향: Cascade
+    // 영속성 전이: Cascade
+    // ---------------------------
+
+    @Test
+    public void insertTest3() {
+        Team team = Team.builder().teamName("team3").build();
+        
+        TeamMember member = TeamMember.builder().userName("홍길동").team(team).build();
+        // teamMemberRepository.save를 안하고 부모에게 자식에게 추가만 해놓고 부모만 저장했더니 멤버도 같이 들어감
+        team.getMembers().add(member); // 팀에다 멤버를 추가한다
+        teamRepository.save(team); // 그리고 저장한다
+    }
+
+    @Test
+    public void deleteTest2(){
+        // 부모 삭제 시 자식도 같이 삭제
+        // deleteTest() 와 비교
+        teamRepository.deleteById(8L);
+    }
+
+    // 결론! 부모 엔티티를 통해서 자식 엔티티를 관리할 수 있더라(상속으로)
+
 }
