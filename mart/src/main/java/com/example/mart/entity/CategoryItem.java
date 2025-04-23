@@ -18,7 +18,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+@ToString(exclude = {"item","category"})
 @Entity
 public class CategoryItem {
 

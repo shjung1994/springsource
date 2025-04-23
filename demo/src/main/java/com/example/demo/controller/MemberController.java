@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.log4j.Log4j2;
@@ -14,6 +15,8 @@ import com.example.demo.dto.LoginDTO;
 import com.example.demo.dto.MemberDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -27,16 +30,22 @@ public class MemberController {
 
     // 회원가입: /member/register
     @GetMapping("/register")
-    public void getRegister() {
+    public void getRegister(@ModelAttribute("mDTO") MemberDTO memberDTO) {
         // template 찾는 것
         log.info("회원가입");
     }
 
     @PostMapping("/register")
     // @ModelAttribute("mDTO") => mDTO라는 별칭을 붙인 것, 별칭을 붙이면 memberDTO로는 접근 못함
-    public String postRegister(@ModelAttribute("mDTO") MemberDTO memberDTO, RedirectAttributes rttr) {
+    public String postRegister(@ModelAttribute("mDTO") @Valid MemberDTO memberDTO, BindingResult result, RedirectAttributes rttr) {
         log.info("회원가입 요청 {}", memberDTO);
     
+        // 유효성 검사 통과하지 못한다면 원래 입력 페이지로 돌아가기
+        if (result.hasErrors()) {
+            return "/member/register";
+        }
+
+
         // 로그인 페이지로 이동(redirect: 다시 경로 요청)
         // return "redirect:/member/login";
 
