@@ -1,6 +1,5 @@
 package com.example.todo.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +20,27 @@ public class TodoService {
 
     private final TodoRepository todoRepository;
     private final ModelMapper modelMapper;
+
+    public Long create(ToDoDto dto) {
+        ToDo todo = modelMapper.map(dto, ToDo.class);
+        return todoRepository.save(todo).getId();
+    }
+
+    public void remove(Long id) {
+        todoRepository.deleteById(id);
+    }
+
+    public ToDoDto read(Long id) {
+        ToDo todo = todoRepository.findById(id).get();
+        // entity => dto 변경 후 리턴
+        return modelMapper.map(todo, ToDoDto.class);
+    }
+
+    public Long changeCompleted(ToDoDto dto){
+        ToDo todo = todoRepository.findById(dto.getId()).get();
+        todo.setCompleted(dto.isCompleted());
+        return todoRepository.save(todo).getId();
+    }
 
     public List<ToDoDto> list(boolean completed) {
 

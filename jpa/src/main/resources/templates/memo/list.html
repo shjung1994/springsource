@@ -15,7 +15,6 @@
           <td th:text="${dto.mno}"></td>
           <td><a th:href="@{/memo/read(mno=${dto.mno})}" th:text="${dto.memoText}"></a></td>
           <td th:text="${#temporals.format(dto.createdDate,'yyyy-MM-dd')}"></td>
-          <!-- <td th:text="${dto.updatedDate}"></td> -->
         </tr>
       </table>
     </div>
