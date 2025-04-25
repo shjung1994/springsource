@@ -34,5 +34,5 @@ public class Book extends BaseEntity{
     private String author;
    
     @Column(nullable = false)
-    private String price;
+    private int price;
 }

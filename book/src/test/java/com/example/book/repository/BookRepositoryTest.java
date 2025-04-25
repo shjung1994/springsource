@@ -1,0 +1,55 @@
+package com.example.book.repository;
+
+import java.util.stream.IntStream;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+
+import com.example.book.entity.Book;
+
+@SpringBootTest
+public class BookRepositoryTest {
+    
+    @Autowired
+    private BookRepository bookRepository;
+
+    @Test
+    public void testInsert() {
+        // 20권 넣어보자!
+        IntStream.rangeClosed(1, 20).forEach(i -> {
+            Book book = Book.builder()
+            .title("title"+i)
+            .author("author"+i)
+            .price(50000+i)   
+            .build();         
+            bookRepository.save(book);
+        });
+    }
+
+    @Test
+    public void testList() {
+        // 전체 조회
+        bookRepository.findAll().forEach(book -> System.out.println(book));
+    }
+
+    @Test
+    public void testGet() {
+        // 하나 조회
+        System.out.println(bookRepository.findById(1L).get());
+    }
+
+    @Test
+    public void testUpdate() {
+        // 가격 수정
+        Book book = bookRepository.findById(1L).get();
+        book.setPrice(25000);
+        bookRepository.save(book);
+    }
+
+    @Test
+    public void testRemove() {
+        // bookRepository.deleteAll();
+        bookRepository.deleteById(5L);
+    }
+}
