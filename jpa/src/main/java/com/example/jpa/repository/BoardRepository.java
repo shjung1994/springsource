@@ -3,11 +3,13 @@ package com.example.jpa.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.NativeQuery;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.repository.query.Param;
 
 import com.example.jpa.entity.Board;
 import java.util.List;
 
-public interface BoardRepository extends JpaRepository<Board, Long>{
+public interface BoardRepository extends JpaRepository<Board, Long>, QuerydslPredicateExecutor<Board>{
     
     // // WHERE b.WRITER = 'USER4'
     // // findByWriter
@@ -42,8 +44,10 @@ public interface BoardRepository extends JpaRepository<Board, Long>{
     // ------------------------------------------------------------------------------------
 
     // 여기서 Board는 entity 기준, Board.java에서 public class Board {} 이기에
-    @Query("select b from Board b where b.writer = ?1")
-    List<Board> findByWriter(String writer);
+    // @Query("select b from Board b where b.writer = ?1")
+    @Query("select b from Board b where b.writer = :writer")
+    // List<Board> findByWriter(String writer);
+    List<Board> findByWriter(@Param("writer") String writer);
     
     @Query("select b from Board b where b.writer like ?1%")
     List<Board> findByWriterStartingWith(String writer);
@@ -51,9 +55,15 @@ public interface BoardRepository extends JpaRepository<Board, Long>{
     @Query("select b from Board b where b.writer like %?1%")
     List<Board> findByWriterContaining(String writer);
 
+    // @Query("select b from Board b where b.bno > ?1 ")
+    
+    // b.title, b.writer 등 두개면 오브젝트 배열로 나옴
+    @Query("select b.title, b.writer from Board b where b.title like %?1%")
+    List<Object[]> findByTitle2(String title);
+
     // sql 구문 형식 사용
     // @Query(value = "select * from Board b where b.bno > ?1", nativeQuery = true)
     @NativeQuery("select * from Board b where b.bno > ?1")
     List<Board> findByBnoGreaterThan(Long bno);
-    
+
 }

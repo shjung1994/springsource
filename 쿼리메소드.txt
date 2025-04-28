@@ -1,0 +1,32 @@
+JPA에서 제공하는 SQL 메소드
+
+findById(): @Id 어노테이션이 부여된 요소(PK)를 기준으로 찾기
+            SELECT * FROM BOARD WHERE BNO=1
+findByAll(): 전체 찾기
+             SELECT * FROM BOARD
+save()
+
+---------------------------------------------------------------
+
+쿼리 메소드 지원
+
+1) findBy~~~~
+   List<Board> findByWriter(String writer);
+
+2) @Query 어노테이션 사용
+    @Query("select b from Board b where b.writer = ?1")
+    List<Board> findByWriter(String writer);
+    - 파라메터 설정
+    가: ?1
+    나: 필드명
+
+3) QueryDSL 이용 - 다른 라이브러리 도움 받기
+    가. QuerydslPredicateExecutor 인터페이스
+        - 간단한 곳에서 사용 편리함
+        - 조인이 불가능(left join 불가능)
+        - 복잡한 실무 환경에서는 사용하기에 한계가 명확
+    나. QuerydslRepositorySupport 추상클래스
+        - 확장성 제공
+        - 조인 가능
+        
+    

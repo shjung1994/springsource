@@ -22,7 +22,7 @@ import lombok.ToString;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = "categoryItems")
+@ToString(exclude = {"categoryItems", "items"})
 @Entity
 public class Category extends BaseEntity{
     
@@ -38,8 +38,8 @@ public class Category extends BaseEntity{
     private List<CategoryItem> categoryItems = new ArrayList<>();
 
     // @ManyToMany를 사용한다면
-    @Builder.Default
-    @JoinTable(name = "CATEGORY_ITEM",joinColumns = @JoinColumn(name="CATEGORY_ID"),inverseJoinColumns = @JoinColumn(name = "ITEM_ID"))
-    @ManyToMany
-    private List<Item> items = new ArrayList<>();
+    // @Builder.Default
+    // @JoinTable(name = "CATEGORY_ITEM",joinColumns = @JoinColumn(name="CATEGORY_ID"),inverseJoinColumns = @JoinColumn(name = "ITEM_ID"))
+    // @ManyToMany
+    // private List<Item> items = new ArrayList<>();
 }
