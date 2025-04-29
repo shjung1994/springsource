@@ -1,4 +1,4 @@
-package com.example.book.controller;
+package com.example.board.controller;
 
 import org.springframework.stereotype.Controller;
 
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
     
     @GetMapping("/")
-    public String getName() {
-        return "redirect:/book/list";
+    public String getHome() {
+        return "redirect:/board/list";
         // return "home";
     }
 
