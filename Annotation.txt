@@ -28,7 +28,7 @@ LazyInitializationException 발생함
 1. @transactional 붙이기 -> SELECT 구문 2 개로 처리
 2. FetchType 변경:
    FetchType.EAGER(즉시) 관계있는 테이블 정보를 즉시 가지고 나오기 -> LEFT JOIN 처리(속도 느려짐)
-   
+
 영속성 관리
 : 양방향일 때 사용할 수 있는 개념
 : 부모 저장 시 자식 엔티티도 같이 저장
