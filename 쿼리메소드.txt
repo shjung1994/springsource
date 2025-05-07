@@ -28,5 +28,5 @@ save()
     나. QuerydslRepositorySupport 추상클래스
         - 확장성 제공
         - 조인 가능
-        
+        - Sort 객체 사용 불가    
     
