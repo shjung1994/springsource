@@ -26,6 +26,8 @@ LazyInitializationException 발생함
 
 해결법
 1. @transactional 붙이기 -> SELECT 구문 2 개로 처리
+   => left join 구문으로 처리하려면
+   => @EntityGraph(attributePaths = { "roleSet "}, type = EntityGraphType.LOAD)
 2. FetchType 변경:
    FetchType.EAGER(즉시) 관계있는 테이블 정보를 즉시 가지고 나오기 -> LEFT JOIN 처리(속도 느려짐)
 

@@ -1,4 +1,6 @@
 project 생성
+
+spring web oracle driver spring data jpa thymeleaf spring boot devtools lombok validation security
 1. application.properties 수정
 ㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁㅁ
 2. modelmapper 라이브러리 추가
