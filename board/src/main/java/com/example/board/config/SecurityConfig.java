@@ -1,4 +1,4 @@
-package com.example.security.config;
+package com.example.board.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,7 +18,7 @@ import org.springframework.security.web.authentication.rememberme.TokenBasedReme
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices.RememberMeTokenAlgorithm;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.example.security.security.CustomLoginSuccessHandler;
+import com.example.board.security.CustomLoginSuccessHandler;
 
 @EnableMethodSecurity // @PreAuthorize, @PostAuthorize를 쓸거야 라는 소리임
 @EnableWebSecurity
@@ -40,8 +40,7 @@ public class SecurityConfig {
             .anyRequest().permitAll())
             .formLogin(login -> login.loginPage("/member/login").permitAll()
             .successHandler(successHandler())
-            .permitAll())
-            .oauth2Login(login -> login.successHandler(successHandler()));
+            .permitAll());
         http.logout(logout -> logout
             .logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
             .logoutSuccessUrl("/"));

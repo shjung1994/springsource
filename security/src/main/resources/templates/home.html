@@ -7,13 +7,18 @@
 </head>
 <body>
     <h1>Home</h1>
+    <div sec:authorize="!isAuthenticated()">
+        <a href="/member/login">LOGIN</a>
+    </div>
     <div>
         <a href="/sample/guest">GUEST</a>
     </div>
     <div>
+        <div sec:authorize="hasAnyRole({'ROLE_USER','ROLE_MANAGER','ROLE_ADMIN'})"></div>
         <a href="/sample/member">MEMBER</a>
     </div>
     <div>
+        <div sec:authorize="hasRole('ROLE_ADMIN')"></div>
         <a href="/sample/admin">ADMIN</a>
     </div>
 </body>
