@@ -16,8 +16,9 @@ public class OAuthMemberDTO extends User{
 
     private String email;
     private String name;
-    private boolean fromSocial;
     private String password;
+
+    private Boolean fromSocial;
 
     // username: id 개념
     public OAuthMemberDTO(String username, String password, boolean fromSocial,

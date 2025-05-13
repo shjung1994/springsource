@@ -24,7 +24,31 @@ filter를 통과해야 컨트롤러로 넘어감
 
   로그인 처리를 위한 Service는 작성해야 함: UserDetailsService 구현
 
-
 소셜계정 처리
 => 테이블 저장
    email, pw
+
+- 403 에러:
+csrf값 자동으로 들어갔는지 확인(원래 자동으로 들어감): form action 값 적었는지 확인
+                                                       axios, fetch => headers에 값 추가했는지 확인!
+
+- thymeleaf security 표현하기
+  - th:value="${#authentication.principle.name}"
+
+  - sec:authorize="isAuthenticated()"
+  - sec:authorize="hasRole('ROLE_ADMIN')"
+  - sec:authorize="hasAnyRole('ROLE_USER','ROLE_ADMIN')"
+
+  - sec:authentication="name": id 가져오기
+  - sec:authentication="principle.authorities": 권한 가져오기
+
+  - sec:authorize="hasAnyRole({'ROLE_USER','ROLE_ADMIN','ROLE_MANAGER'})"
+    hasAnyRole(): Role 여러 개 중에 하나만 만족한다면
+    hasRole(): Role 하나만 작성하고 그 Role 만족한다면
+  
+  - 작성한 경로를 제외하고는 모두 로그인 필요함
+  http
+    .authorizeHttpRequests(authorize -> authorize.requestMatchers("/css/**","/js/**","/img/**","/assets/**").permitAll()
+    .requestMatchers("/board/read").permitAll()
+    .anyRequest().authenticated())
+  - .anyRequest().permitAll(): 컨트롤러 메소드 단에서 제어

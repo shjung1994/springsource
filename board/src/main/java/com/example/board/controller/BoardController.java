@@ -61,6 +61,7 @@ public class BoardController {
         return "redirect:/board/list";
     }
 
+    @PreAuthorize("permitAll()")
     @GetMapping("/list")
     public void getList(Model model, PageRequestDTO pageRequestDTO) {
         log.info("board list 요청 {}", pageRequestDTO);
@@ -93,8 +94,10 @@ public class BoardController {
         return "redirect:/board/read";
     }
     
-    @GetMapping({"/remove"})
-    public String getRemove(Long bno, PageRequestDTO pageRequestDTO, RedirectAttributes rttr) {
+    // 로그인 사용자 == 작성자
+    @PreAuthorize("authentication.name == #email")
+    @PostMapping({"/remove"})
+    public String getRemove(Long bno, String email, PageRequestDTO pageRequestDTO, RedirectAttributes rttr) {
         log.info("remove {}", bno);
 
         // 삭제

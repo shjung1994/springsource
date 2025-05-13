@@ -33,16 +33,20 @@
       >
     </form>
 
-    <div class="mt-5">
+    <div class="mt-5" sec:authorize="isAuthenticated()">
       <hr />
       <div class="border p-4">
-        <form action="" class="post" id="replyForm">
+        <form class="post" id="replyForm">
           <input type="hidden" name="rno" />
           <input type="hidden" name="bno" th:value="${dto.bno}"/>
+          <input type="hidden" name="replyerEmail" th:value="${#authentication.name}"/>
           <div class="input-group mb-3">
             <span class="input-group-text">작성자</span>
-            <input type="text" class="form-control" id="replyer" name="replyer" />
+            <input type="text" class="form-control" id="replyer" name="replyerName" sec:authorize="isAuthenticated()" th:value="${#authentication.principal.name}">
+            <!-- 인증되었다면 보여줘 -->
           </div>
+          <!-- <span sec:authentication="name"></span>
+          <span sec:authentication="principle.authorities"></span> -->
           <div class="input-group">
             <span class="input-group-text">댓글 내용</span>
             <textarea name="text" id="text" rows="3" class="form-control"></textarea>
@@ -55,7 +59,7 @@
       <h5 class="my-3">댓글 갯수: <span th:text="${dto.replyCount}"></span></h5>
       <div class="replyList boarder px-2">
         <!-- 댓글목록 -->
-        <div class="d-flex justify-content-between my-2 border-bottom reply-row" data-rno="1">
+        <!-- <div class="d-flex justify-content-between my-2 border-bottom reply-row" data-rno="1"> -->
           <div class="p-3">
             <img
               src="/img/default.png"
@@ -85,6 +89,10 @@
     <script>
       // 현재 bno 가져오기
       const bno = "[[${dto.bno}]]";
+      // 현재 로그인 사용자 가져오기
+      const loginUser = "[[${#authentication.name}]]";
+      // csrf 생성
+      const csrf = "[[${_csrf.token}]]"
     </script>
     <script th:src="@{/js/read.js}"></script>
   </th:block>
