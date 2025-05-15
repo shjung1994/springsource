@@ -24,6 +24,9 @@ import com.querydsl.core.types.dsl.PathBuilder;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;
 
+import lombok.extern.log4j.Log4j2;
+
+@Log4j2
 public class MovieImageReviewRepositoryImpl extends QuerydslRepositorySupport implements MovieImageReviewRepository {
 
     public MovieImageReviewRepositoryImpl() {
@@ -74,7 +77,7 @@ public class MovieImageReviewRepositoryImpl extends QuerydslRepositorySupport im
 
         tuple.offset(pageable.getOffset());
         tuple.limit(pageable.getPageSize());
-
+        
         List<Tuple> result = tuple.fetch();
         long totalCnt = tuple.fetchCount();
 
@@ -83,8 +86,33 @@ public class MovieImageReviewRepositoryImpl extends QuerydslRepositorySupport im
 
     @Override
     public List<Object[]> getMovieRow(Long mno) {
+        log.info("영화 상세 정보 요청 {}", mno);
 
-        throw new UnsupportedOperationException("Unimplemented method 'getMovieRow'");
+        QMovie movie = QMovie.movie;
+        QMovieImage movieImage = QMovieImage.movieImage;
+        QReview review = QReview.review;
+
+        JPQLQuery<MovieImage> query = from(movieImage);
+        // LEFT JOIN MOVIE m ON mi.MOVIE_MNO  = m.MNO
+        query.leftJoin(movie).on(movieImage.movie.eq(movie));
+
+        // from 절 전까지
+        JPQLQuery<Long> count = JPAExpressions.select(review.countDistinct()).from(review)
+        .where(review.movie.eq(movieImage.movie));
+        JPQLQuery<Double> avg = JPAExpressions.select(review.grade.avg().round()).from(review)
+        .where(review.movie.eq(movieImage.movie));
+
+
+        // where 절
+        JPQLQuery<Tuple> tuple = query.select(movie, movieImage, count, avg)
+            .where(movieImage.movie.mno.eq(mno))
+            .orderBy(movieImage.inum.desc());
+
+            List<Tuple> result= tuple.fetch();
+
+            List<Object[]> list = result.stream().map(t -> t.toArray()).collect(Collectors.toList());
+        
+            return list;
     }
     
 }

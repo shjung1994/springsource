@@ -1,6 +1,7 @@
 package com.example.movie.repository;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -106,6 +107,38 @@ public class MovieRepositoryTest {
             System.out.println(Arrays.toString(objects));
         }
         
+    }
+
+    @Test
+    public void getMovieTest() {
+        List<Object[]> result = movieImageRepository.getMovieRow(2L);
+        
+                // Object[] row0 = result.get(0); // [Movie(mno=2, title=Movie 2, createdDate=2025-05-14T14:41:31.926465, updatedDate=2025-05-14T14:41:31.926465), MovieImage(inum=5, uuid=15a3864e-5cf8-4417-bf6d-a19b2dde0099, imgName=test0.jpg, path=null, ord=0), 2, 3.0]
+                // Object[] row1 = result.get(1);
+                // Object[] row2 = result.get(2);
+                // Object[] row3 = result.get(3);
+
+                Movie movie = (Movie) result.get(0)[0];
+                MovieImage movieImage = (MovieImage) result.get(0)[1];
+                Long cnt = (Long) result.get(0)[2];
+                Double avg = (Double) result.get(0)[3];
+                
+                Movie movie1 = (Movie) result.get(1)[0];
+                MovieImage movieImage1 = (MovieImage) result.get(1)[1];
+                Long cnt1 = (Long) result.get(1)[2];
+                Double avg1 = (Double) result.get(1)[3];
+
+                Movie movie2 = (Movie) result.get(2)[0];
+                MovieImage movieImage2 = (MovieImage) result.get(2)[1];
+                Long cnt2 = (Long) result.get(2)[2];
+                Double avg2 = (Double) result.get(2)[3];
+
+        // 하지만 몇 개가 있는지 모르기에...
+        // 한번에 출력
+        // for (Object[] objects : result) {
+        //     System.out.println(Arrays.toString(objects));
+        // }
+
     }
 
 }

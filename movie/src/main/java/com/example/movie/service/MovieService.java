@@ -1,5 +1,6 @@
 package com.example.movie.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
@@ -17,8 +18,12 @@ import com.example.movie.dto.PageRequestDTO;
 import com.example.movie.dto.PageResultDTO;
 import com.example.movie.entity.Movie;
 import com.example.movie.entity.MovieImage;
+import com.example.movie.entity.Review;
 import com.example.movie.repository.MovieImageRepository;
+import com.example.movie.repository.MovieRepository;
+import com.example.movie.repository.ReviewRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -28,6 +33,36 @@ import lombok.extern.log4j.Log4j2;
 public class MovieService {
     
     private final MovieImageRepository movieImageRepository;
+    private final MovieRepository movieRepository;
+    private final ReviewRepository reviewRepository;
+
+    @Transactional
+    public void deleteRow(Long mno) {
+        // 제거할 영화 찾기
+        Movie movie = Movie.builder().mno(mno).build();
+        // 자식 삭제
+        movieImageRepository.deleteByMovie(movie);
+        reviewRepository.deleteByMovie(movie);
+        // 부모 삭제
+        movieRepository.delete(movie);
+    }
+
+    public MovieDTO getRow(Long mno) {
+        List<Object[]> result = movieImageRepository.getMovieRow(mno);
+        // Object[] row = result.get(0);
+        Movie movie = (Movie) result.get(0)[0];
+
+        List<MovieImage> movieImages = new ArrayList<>();
+        result.forEach(arr -> {
+            MovieImage movieImage = (MovieImage) arr[1];
+            movieImages.add(movieImage);
+        });
+
+        Long cnt = (Long) result.get(0)[2];
+        Double avg = (Double) result.get(0)[3];
+
+        return entityToDto(movie, movieImages, cnt, avg);
+    }
 
     public PageResultDTO<MovieDTO> getList(PageRequestDTO pageRequestDTO){
 
@@ -37,7 +72,7 @@ public class MovieService {
         //[
         // [Movie(mno=100, title=Movie 100), MovieImage(inum=287, uuid=c24875f8-47c8-44a7-86b5-3bc3ce96dbc3, imgName=test0.jpg, path=null, ord=0), 1, 1.0]
         // ]
-        Function<Object[], MovieDTO> function = (en -> entityToDto((Movie)en[0], Arrays.asList((MovieImage)en[1]), (Long)en[2], (Double)en[3]));
+        Function<Object[], MovieDTO> function = (en -> entityToDto((Movie)en[0], (List<MovieImage>)Arrays.asList((MovieImage)en[1]), (Long)en[2], (Double)en[3]));
 
         List<MovieDTO> dtoList = result.stream().map(function).collect(Collectors.toList());
         Long totalCount = result.getTotalElements();
