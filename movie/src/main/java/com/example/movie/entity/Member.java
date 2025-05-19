@@ -1,5 +1,7 @@
 package com.example.movie.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -31,6 +33,9 @@ public class Member extends BaseEntity{
     private String email;
     private String password;
     private String nickname;
+
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
 
     @Enumerated(EnumType.STRING)
     private MemberRole memberRole;

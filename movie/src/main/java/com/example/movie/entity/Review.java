@@ -1,5 +1,7 @@
 package com.example.movie.entity;
 
+import java.time.LocalDateTime;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -28,9 +30,21 @@ public class Review extends BaseEntity{
 
     private String text;
 
+    private LocalDateTime createdDate;
+    private LocalDateTime updatedDate;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Movie movie;
+
+    public void changeText(String text) {
+        this.text = text;
+    }
+
+    public void changeGrade(int grade) {
+        this.grade = grade;
+    }
+
 }

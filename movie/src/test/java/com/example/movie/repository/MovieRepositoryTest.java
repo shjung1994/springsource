@@ -19,6 +19,8 @@ import com.example.movie.entity.Movie;
 import com.example.movie.entity.MovieImage;
 import com.example.movie.entity.Review;
 
+import jakarta.transaction.Transactional;
+
 @SpringBootTest
 public class MovieRepositoryTest {
     
@@ -33,6 +35,23 @@ public class MovieRepositoryTest {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    // 리뷰 조회
+    @Test
+    public void testFindByMovie(){
+        System.out.println(reviewRepository.findByMovie(Movie.builder().mno(2L).build()));
+    }
+
+    // @Transactional // review repository에 @EntityGraph를 해줬기 때문에 안써도 됨
+    @Test
+    public void testFindByMovie2(){
+        List<Review> list = reviewRepository.findByMovie(Movie.builder().mno(2L).build());
+        for (Review review : list) {
+            System.out.println(review);
+            // 리뷰 작성자 조회
+            System.out.println(review.getMember().getEmail());
+        }
+    }
 
     // 영화 삽입
     @Test
