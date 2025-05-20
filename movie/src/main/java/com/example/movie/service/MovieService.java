@@ -84,7 +84,7 @@ public class MovieService {
 
         Pageable pageable = PageRequest.of(pageRequestDTO.getPage() - 1, pageRequestDTO.getSize(), Sort.by("mno").descending());
 
-        Page<Object[]> result = movieImageRepository.getTotalList(null, null, pageable);
+        Page<Object[]> result = movieImageRepository.getTotalList(pageRequestDTO.getType(), pageRequestDTO.getKeyword(), pageable);
         //[
         // [Movie(mno=100, title=Movie 100), MovieImage(inum=287, uuid=c24875f8-47c8-44a7-86b5-3bc3ce96dbc3, imgName=test0.jpg, path=null, ord=0), 1, 1.0]
         // ]

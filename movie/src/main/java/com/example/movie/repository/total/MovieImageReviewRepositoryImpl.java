@@ -60,6 +60,14 @@ public class MovieImageReviewRepositoryImpl extends QuerydslRepositorySupport im
         BooleanExpression expression = movie.mno.gt(0);
         builder.and(expression);
 
+        BooleanBuilder condition = new BooleanBuilder();
+
+        if (!type.isEmpty() && type.contains("title")) {
+            condition.or(movie.title.contains(keyword));
+            builder.and(condition);
+        }
+        tuple.where(builder);
+
         // Sort 생성
         // bno로 나 sort 해줘!
         // PageRequest.of(0, 10, Sort.by("bno").descending());

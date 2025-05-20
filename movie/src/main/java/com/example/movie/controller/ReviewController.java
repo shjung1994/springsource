@@ -11,6 +11,7 @@ import lombok.extern.log4j.Log4j2;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ public class ReviewController {
     
     private final ReviewService reviewService;
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/{mno}")
     public Long postMethodName(@RequestBody ReviewDTO reviewDTO) {
         log.info("리뷰 등록 요청 {}", reviewDTO);
@@ -39,13 +41,13 @@ public class ReviewController {
         return rno;
     }
     
-
     @GetMapping("/{mno}/{rno}")
     public ReviewDTO getReview(@PathVariable Long rno) {
         log.info("review 가져오기 {}", rno);
         return reviewService.getReply(rno);
     }
    
+    @PreAuthorize("isAuthenticated()")
     @PutMapping("/{mno}/{rno}")
     public ReviewDTO putReply(@PathVariable Long rno, @RequestBody ReviewDTO reviewDTO) {
         log.info("review 수정 {} {}", rno, reviewDTO);
@@ -54,6 +56,7 @@ public class ReviewController {
         return updaReviewDTO;
     }
 
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/{mno}/{rno}")
     public Long remove(@PathVariable Long rno) {
         log.info("review 제거 {}", rno);
