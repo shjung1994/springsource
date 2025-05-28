@@ -17,34 +17,19 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
-@ToString(exclude = "genre")
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-public class Novel {
-
+public class Member {
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "novel_id")
-    private Long id;
+    private String email;
 
-    @Column(nullable = false)
-    private String title;
+    private String pw;
 
-    @Column(nullable = false)
-    private String author;
+    private String nickname;
 
-    private LocalDate publishedDate; // 출판일
-
-    @Column(nullable = false)
-    private boolean available;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="GENRE_ID")
-    private Genre genre;
-
-    public void changeAvailable(boolean available) {
-        this.available = available;
-    }
+    private boolean social;
 }
