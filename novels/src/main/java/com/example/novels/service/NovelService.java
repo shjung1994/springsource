@@ -37,6 +37,15 @@ public class NovelService {
 
     }
 
+    public Long pubUpdate(NovelDTO novelDTO) {
+
+        // publishedData 변경
+        Novel novel = novelRepository.findById(novelDTO.getId()).get();
+        novel.changePublishedDate(novelDTO.getPublishedDate());
+        return novelRepository.save(novel).getId();
+
+    }
+
     public void novelRemove(Long id) {
 
         // 자식에 해당하는 grade 삭제
@@ -51,49 +60,49 @@ public class NovelService {
 
         // novel 추가
         Novel novel = Novel.builder()
-        .title(novelDTO.getTitle())
-        .author(novelDTO.getAuthor())
-        .publishedDate(novelDTO.getPublishedDate())
-        .available(novelDTO.isAvailable())
-        .genre(Genre.builder().id(novelDTO.getGid()).build())
-        .build();
+                .title(novelDTO.getTitle())
+                .author(novelDTO.getAuthor())
+                .publishedDate(novelDTO.getPublishedDate())
+                .available(novelDTO.isAvailable())
+                .genre(Genre.builder().id(novelDTO.getGid()).build())
+                .build();
         return novelRepository.save(novel).getId();
-        
+
     }
 
-
-    public PageResultDTO<NovelDTO> getList(PageRequestDTO pageRequestDTO){
-        Pageable pageable = PageRequest.of(pageRequestDTO.getPage()-1, pageRequestDTO.getSize(), Sort.by("id").descending());
+    public PageResultDTO<NovelDTO> getList(PageRequestDTO pageRequestDTO) {
+        Pageable pageable = PageRequest.of(pageRequestDTO.getPage() - 1, pageRequestDTO.getSize(),
+                Sort.by("id").descending());
         Page<Object[]> result = novelRepository.list(pageable);
 
         // entity => dto
         List<NovelDTO> dtoList = result.get().map(arr -> {
-            Novel novel = (Novel)arr[0];
-            Genre genre = (Genre)arr[1];
-            Double rating = (Double)arr[2];
+            Novel novel = (Novel) arr[0];
+            Genre genre = (Genre) arr[1];
+            Double rating = (Double) arr[2];
 
             NovelDTO novelDTO = NovelDTO.builder()
-            .id(novel.getId())
-            .title(novel.getTitle())
-            .author(novel.getAuthor())
-            .publishedDate(novel.getPublishedDate())
-            .available(novel.isAvailable())
-            .gid(genre.getId())
-            .genreName(genre.getName())
-            .rating(rating != null ? rating.intValue():0)
-            .build();
+                    .id(novel.getId())
+                    .title(novel.getTitle())
+                    .author(novel.getAuthor())
+                    .publishedDate(novel.getPublishedDate())
+                    .available(novel.isAvailable())
+                    .gid(genre.getId())
+                    .genreName(genre.getName())
+                    .rating(rating != null ? rating.intValue() : 0)
+                    .build();
             return novelDTO;
         }).collect(Collectors.toList());
 
         long totalCount = result.getTotalElements();
         return PageResultDTO.<NovelDTO>withAll()
-        .dtoList(dtoList)
-        .totalCount(totalCount)
-        .pageRequestDTO(pageRequestDTO)
-        .build();
+                .dtoList(dtoList)
+                .totalCount(totalCount)
+                .pageRequestDTO(pageRequestDTO)
+                .build();
     }
 
-    public NovelDTO getRow(Long id){
+    public NovelDTO getRow(Long id) {
         Object[] result = novelRepository.getNovelById(id);
 
         Novel novel = (Novel) result[0];
@@ -103,18 +112,18 @@ public class NovelService {
         return dto;
     }
 
-    private NovelDTO entityToDto(Novel novel, Genre genre, Double rating){
+    private NovelDTO entityToDto(Novel novel, Genre genre, Double rating) {
         NovelDTO novelDTO = NovelDTO.builder()
-            .id(novel.getId())
-            .title(novel.getTitle())
-            .author(novel.getAuthor())
-            .publishedDate(novel.getPublishedDate())
-            .available(novel.isAvailable())
-            .gid(genre.getId())
-            .genreName(genre.getName())
-            .rating(rating != null ? rating.intValue():0)
-            .build();
-            return novelDTO;
+                .id(novel.getId())
+                .title(novel.getTitle())
+                .author(novel.getAuthor())
+                .publishedDate(novel.getPublishedDate())
+                .available(novel.isAvailable())
+                .gid(genre.getId())
+                .genreName(genre.getName())
+                .rating(rating != null ? rating.intValue() : 0)
+                .build();
+        return novelDTO;
     }
 
 }
