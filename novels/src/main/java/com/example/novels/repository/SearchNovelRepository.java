@@ -8,5 +8,5 @@ public interface SearchNovelRepository {
     Object[] getNovelById(Long id);
 
     // 전체 조회
-    Page<Object[]> list(Pageable pageable);
+    Page<Object[]> list(Long gid, String keyword, Pageable pageable);
 }

@@ -73,7 +73,7 @@ public class NovelService {
     public PageResultDTO<NovelDTO> getList(PageRequestDTO pageRequestDTO) {
         Pageable pageable = PageRequest.of(pageRequestDTO.getPage() - 1, pageRequestDTO.getSize(),
                 Sort.by("id").descending());
-        Page<Object[]> result = novelRepository.list(pageable);
+        Page<Object[]> result = novelRepository.list(pageRequestDTO.getGenre(), pageRequestDTO.getKeyword(), pageable);
 
         // entity => dto
         List<NovelDTO> dtoList = result.get().map(arr -> {
