@@ -27,7 +27,7 @@ public String getHome(PageRequestDTO pageRequestDTO, RedirectAttributes rttr) {
 
 @GetMapping("/error")
 public String getError() {
-    return "/except/url404";
+    return "except/url404";
 }
 
 
